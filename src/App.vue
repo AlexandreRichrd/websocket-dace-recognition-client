@@ -1,15 +1,12 @@
 <template>
   <div>
     <ModaleName @hideModale="hideModale" @validate="validate" v-if="isModale"/>
+    <CameraCapture />
     <h3>WebSocket Client</h3>
-    <input v-model="newMessage" @keyup.enter="send" placeholder="Type a message" />
-    <button @click="send">Send</button>
+    
     <div v-if="isConnected">Connected</div>
     <div v-else>Disconnected</div>
-    <input type="file" @change="handleFileUpload2">
-    <ul>
-      <li v-for="(message, index) in messages" :key="index">{{ message }}</li>
-    </ul>
+    <input type="file" @change="handleFileUpload">
   </div>
 </template>
 
@@ -17,9 +14,9 @@
 import { ref } from 'vue';
 import { useWebSocket } from './composable/useWebSocket';
 import ModaleName from './components/ModaleName.vue';
+import CameraCapture from './components/CameraCapture.vue';
 
-const { isConnected, messages, sendMessage, sendBinaryData, sendImageWithMetadata } = useWebSocket('ws://localhost:8765');
-const newMessage = ref('');
+const { isConnected, messages, sendImageWithMetadata } = useWebSocket('ws://localhost:8765');
 const selectedFile = ref<File | null>(null);
 const isModale = ref(false);
 const name = ref('');
@@ -41,7 +38,7 @@ const validate = (value: string) => {
     });
 }
 
-const handleFileUpload2 = (event: Event) => {
+const handleFileUpload = (event: Event) => {
   const input = event.target as HTMLInputElement;
   if (!input.files?.length) return;
 
@@ -62,9 +59,5 @@ const handleFileUpload2 = (event: Event) => {
 //   });
 // }
 
-const send = () => {
-  sendMessage(newMessage.value);
-  newMessage.value = '';
-}
 
 </script>

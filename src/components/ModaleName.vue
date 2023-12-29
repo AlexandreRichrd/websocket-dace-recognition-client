@@ -5,8 +5,7 @@
                 <div></div><h3>Entrez le nom de la personne</h3><p @click="hideModale">X</p>
             </div>
             <div class="container">
-
-                <input type="text" v-model="inputValue">
+                <input type="text" v-model="valeur">
                 <button @click="validate">Valider</button>
             </div>
         </div>
@@ -16,7 +15,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const inputValue = ref('');
+const valeur = ref('');
 
 const emit = defineEmits(['hideModale', 'validate']);
 
@@ -25,9 +24,9 @@ const hideModale = () => {
 }
 
 const validate = () => {
-    emit('validate', inputValue.value);
+    emit('validate', valeur.value);
 }
-</script>
+</script>qsd
 
 <style scoped>
     #modale-bg {
